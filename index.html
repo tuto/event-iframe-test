@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            window.addEventListener('message', handleMessage, false);
+        });
+        function handleMessage(event) {  
+            var to = event.data.to;
+            var iframes = document.getElementsByTagName('iframe');
+            for(let iframe of iframes){
+                if(to === 'all' ) {
+                    var randomColor = Math.floor(Math.random()*16777215).toString(16);
+                    document.body.style.backgroundColor = "#"+randomColor;
+                    iframe.contentWindow.postMessage(event.data, '*')
+                }
+                else if( to === iframe.name){
+                    iframe.contentWindow.postMessage(event.data, '*')
+                }
+            }
+        }
+        
+    </script> 
+<h2></h2>
+
+<iframe name="app1" src="app1.html" height="400" width="600" title="Iframe Example"></iframe>
+<iframe name="app2" src="app2.html" height="400" width="600" title="Iframe Example"></iframe>
+<iframe name="app3" src="app3.html" height="400" width="1200" title="Iframe Example"></iframe>
+
+</body>
+</html>
+
+

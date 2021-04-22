@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<body>
+</body>
+<script>
+   window.addEventListener('DOMContentLoaded', (event) => {
+        var buttons = document.getElementsByTagName('button');
+        for(let button of buttons){
+                button.addEventListener("click", sendEvent)
+            }
+        window.addEventListener('message', handleMessage, false);
+    });
+   
+    function sendEvent(obj){
+        var to = obj.target.id.split("_")[1];
+        var myCustomData = { from: 'app1', to }
+        window.parent.postMessage(myCustomData, "*");
+    }
+    function handleMessage(event) {  
+        var randomColor = Math.floor(Math.random()*16777215).toString(16);
+        document.body.style.backgroundColor = "#"+randomColor;
+        document.getElementById("contentMessage").innerHTML = "mensaje desde " + event.data.from;
+    }
+</script>
+<h1>App 1 en Iframe</h1>
+<button id="button_all">Evento general</button>
+<button id="button_app2">Evento a aplicacion 2</button>
+<button id="button_app3">Evento a aplicacion 3</button>
+
+<h2 id="contentMessage"></h2>
+</body>
+</html>
+
+
